@@ -1,7 +1,20 @@
 import { StyleSheet, Text, View } from "react-native"
 import { ActionButton } from "../components/ActionButton";
+import { signOut } from "firebase/auth";
+import { auth } from "../utils/firebaseConfig";
 
-export const ProfileScreen = () => {
+export const ProfileScreen = ({ navigation }: any) => {
+
+  function handleSignOut() {
+    signOut(auth)
+      .then(() => {
+        navigation.replace("LoginRegister");
+      })
+      .catch((error) => {
+        console.error("Error signing out: ", error);
+      });
+  }
+
   return (
     <View style={styles.container}>
       <View>
@@ -10,7 +23,7 @@ export const ProfileScreen = () => {
       </View>
       <ActionButton
         title="Sign Out"
-        onPress={() => console.log("Sign Out Pressed")}
+        onPress={handleSignOut}
       />
     </View>
   )
