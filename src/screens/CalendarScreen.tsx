@@ -1,14 +1,25 @@
 import { FlatList, StyleSheet, Text, View } from "react-native"
 import { CalendarComponent } from "../components/CalendarComponent"
 import { ActionButton } from "../components/ActionButton"
+import { EventItem } from "../components/EventItem"
+
+const events = [
+  { id: "1", title: "Event 1", time: "10:00" },
+  { id: "2", title: "Event 2", time: "11:00" },
+  { id: "3", title: "Event 3", time: "12:00" }
+]
 
 export const CalendarScreen = () => {
   return (
     <View style={styles.container}>
       <CalendarComponent />
       <FlatList
-        data={["Item 1", "Item 2", "Item 3"]}
-        renderItem={({ item }) => <Text>{item}</Text>}
+        horizontal
+        data={events}
+        renderItem={({ item }) =>
+          <EventItem event={item} />
+        }
+        keyExtractor={(item) => item.id}
       />
       <ActionButton
         title="Add Event"

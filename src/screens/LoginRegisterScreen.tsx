@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 import { ActionButton } from "../components/ActionButton";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const LoginRegisterScreen = ({ navigation }: any) => {
   const [isRegister, setIsRegister] = useState(false)
@@ -24,7 +25,7 @@ export const LoginRegisterScreen = ({ navigation }: any) => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Login/Register Screen</Text>
         <Text style={styles.title}>
@@ -85,15 +86,14 @@ export const LoginRegisterScreen = ({ navigation }: any) => {
         </View>
 
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 32,
-    paddingHorizontal: 16,
+    padding: 16,
     backgroundColor: "#fff",
     justifyContent: "space-between",
   },

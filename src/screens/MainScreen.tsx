@@ -28,9 +28,6 @@ export const MainScreen = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: true,
-        headerStyle: {
-          height: 70,
-        },
         tabBarIcon: ({ focused, color, size }) =>
           renderTabIcon(route.name, focused, color, size),
         tabBarActiveTintColor: '#007AFF',
