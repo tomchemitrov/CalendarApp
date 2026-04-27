@@ -1,29 +1,35 @@
-import { StyleSheet, Text, View } from "react-native"
+import { Alert, StyleSheet, Text, View } from "react-native"
 import { ActionButton } from "../components/ActionButton";
 import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebaseConfig";
+import { useState } from "react";
 
-export const ProfileScreen = ({ navigation }: any) => {
+export const ProfileScreen = () => {
+  const [isLoading, setIsLoading] = useState(false);
 
-  function handleSignOut() {
-    signOut(auth)
-      .then(() => {
-        navigation.replace("LoginRegister");
-      })
-      .catch((error) => {
-        console.error("Error signing out: ", error);
-      });
+  const user = auth.currentUser;
+
+  async function handleSignOut() {
+    setIsLoading(true);
+    try {
+      await signOut(auth);
+    } catch (error) {
+      Alert.alert("Error", error + "");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
     <View style={styles.container}>
-      <View>
-        <Text>User:</Text>
-        <Text>John Doe</Text>
+      <View style={styles.userContainer}>
+        <Text>Logged in user:</Text>
+        <Text style={styles.userText}>{user?.email}</Text>
       </View>
       <ActionButton
         title="Sign Out"
         onPress={handleSignOut}
+        disabled={isLoading}
       />
     </View>
   )
@@ -35,5 +41,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 16,
     justifyContent: "space-between"
-  }
+  },
+  userContainer: {
+    gap: 16,
+  },
+  userText: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
 });

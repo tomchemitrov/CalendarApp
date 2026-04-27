@@ -2,11 +2,7 @@ import { useEffect } from "react"
 import { ActivityIndicator, StyleSheet, Text } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-export const SplashScreen = ({ navigation }: any) => {
-
-  useEffect(() => {
-    navigation.replace("LoginRegister");
-  }, [navigation]);
+export const SplashScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>

@@ -1,11 +1,19 @@
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
 
-export const ActionButton = ({ title, onPress, style }: { title: string; onPress: () => void, style?: any }) => {
+interface ActionButtonProps {
+    title: string;
+    onPress: () => void;
+    style?: any;
+    disabled?: boolean;
+}
+
+export const ActionButton = ({ title, onPress, style, disabled }: ActionButtonProps) => {
     return (
         <TouchableOpacity
             style={[styles.button, style]}
             onPress={onPress}
             activeOpacity={0.7}
+            disabled={disabled}
         >
             <Text style={styles.buttonText}>{title}</Text>
         </TouchableOpacity>

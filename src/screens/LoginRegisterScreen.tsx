@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 import { ActionButton } from "../components/ActionButton";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebaseConfig";
 
-export const LoginRegisterScreen = ({ navigation }: any) => {
+export const LoginRegisterScreen = () => {
   const [isRegister, setIsRegister] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,22 +17,41 @@ export const LoginRegisterScreen = ({ navigation }: any) => {
     setIsRegister(false);
   }, [])
 
-  function handleLogin() {
-    console.log("Login")
-    navigation.replace("Main");
+  async function handleLogin() {
+    setIsLoading(true);
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      Alert.alert("Error", error + "");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
-  function handleRegister() {
-    console.log("Register")
-    navigation.replace("Main");
+  async function handleRegister() {
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      Alert.alert("Error", error + "");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Login/Register Screen</Text>
+        <Text style={styles.title}>Welcome to Calendar App</Text>
         <Text style={styles.title}>
-          {isRegister ? "Sign up to get started" : "Sign in to continue"}
+          {isRegister ? "Sign Up to get started" : "Sign In to continue"}
         </Text>
       </View>
 
@@ -69,9 +91,13 @@ export const LoginRegisterScreen = ({ navigation }: any) => {
 
 
       <View>
+        {isLoading &&
+          <ActivityIndicator size="large" color="#007AFF" style={{ marginBottom: 16 }} />
+        }
         <ActionButton
           title={isRegister ? "Register" : "Sign In"}
           onPress={isRegister ? handleRegister : handleLogin}
+          disabled={isLoading}
         />
 
         <View style={styles.accountText}>
@@ -116,7 +142,7 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: "center",
-    gap: 4,
+    gap: 16,
     marginTop: 16
   },
   title: {
