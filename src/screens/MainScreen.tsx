@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { CalendarScreen } from "./CalendarScreen";
 import { ProfileScreen } from "./ProfileScreen";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { isSensorAvailable, simplePrompt } from '@sbaiahmed1/react-native-biometrics';
+import { StyleSheet, Text, View } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,6 +26,41 @@ const renderTabIcon = (routeName: string, focused: boolean, color: string, size:
 };
 
 export const MainScreen = () => {
+  const [isBiometricAuthenticated, setIsBiometricAuthenticated] = useState(false);
+  const [biometricError, setBiometricError] = useState('');
+
+  async function authenticateWithBiometrics() {
+    setBiometricError('');
+
+    try {
+      const sensor = await isSensorAvailable();
+      if (!sensor.available) {
+        setIsBiometricAuthenticated(true);
+        return;
+      }
+      const success = await simplePrompt('Authenticate to continue');
+      if (success) {
+        setIsBiometricAuthenticated(true);
+      } else {
+        setBiometricError('Authentication failed or was cancelled.');
+      }
+    } catch (error) {
+      setBiometricError(error + '');
+    }
+  }
+
+  useEffect(() => {
+    authenticateWithBiometrics();
+  }, []);
+
+  if (!isBiometricAuthenticated) {
+    return (
+      <View style={styles.container}>
+        <Text>{biometricError}</Text>
+      </View>
+    );
+  }
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -39,3 +76,12 @@ export const MainScreen = () => {
     </Tab.Navigator>
   );
 };
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

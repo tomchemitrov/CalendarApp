@@ -13,11 +13,35 @@ export const LoginRegisterScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  useEffect(() => {
-    setIsRegister(false);
-  }, [])
+  function isValidEmail(value: string) {
+    return value.includes("@") && value.includes(".") && value.length > 0;
+  }
+
+  function isValidPassword(value: string) {
+    return value.length >= 8;
+  }
+
+  function validateFields() {
+    if (!isValidEmail(email)) {
+      Alert.alert("Error", "Please enter a valid email address");
+      return false;
+    }
+    if (!isValidPassword(password)) {
+      Alert.alert("Error", "Password must be at least 8 characters");
+      return false;
+    }
+    if (isRegister && password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match");
+      return false;
+    }
+    return true;
+  }
 
   async function handleLogin() {
+    if (!validateFields()) {
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -30,8 +54,7 @@ export const LoginRegisterScreen = () => {
   }
 
   async function handleRegister() {
-    if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match");
+    if (!validateFields()) {
       return;
     }
 
