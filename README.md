@@ -1,97 +1,119 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# CalendarApp
 
-# Getting Started
+CalendarApp is a React Native calendar application with Firebase Firestore-backed events.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Screenshots
 
-## Step 1: Start Metro
+![Calendar screen](screenshots/1.png)
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+![Add event dialog](screenshots/2.png)
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+![Events list](screenshots/3.png)
+
+![Edit event dialog](screenshots/4.png)
+
+![Profile screen](screenshots/5.png)
+
+## Required Software Versions
+
+Use the following versions when setting up the project:
+
+- Node.js: `>= 22.11.0`
+- npm: use the version bundled with Node.js 22
+- React Native: `0.85.2`
+- React: `19.2.3`
+- TypeScript: `^5.8.3`
+- Firebase JS SDK: `^12.12.1`
+- React Native CLI: `20.1.0`
+
+## Android Requirements
+
+- Android Studio: latest stable version recommended
+- Android SDK Platform: `36`
+- Android SDK Build Tools: `36.0.0`
+- Android NDK: `27.1.12297006`
+- Kotlin: `2.1.20`
+- Gradle: `9.3.1` through the included Gradle wrapper
+- Minimum Android SDK: `24`
+- Target Android SDK: `36`
+
+## iOS Requirements
+
+- macOS with Xcode installed
+- Ruby: `>= 2.6.10`
+- CocoaPods: `>= 1.13`, excluding `1.15.0` and `1.15.1`
+- Bundler: required for installing the Ruby gems from `Gemfile`
+
+## Main App Dependencies
+
+- `@react-native-async-storage/async-storage`: `^3.0.2`
+- `@react-navigation/bottom-tabs`: `^7.15.10`
+- `@react-navigation/native`: `^7.2.2`
+- `@react-navigation/native-stack`: `^7.14.12`
+- `@sbaiahmed1/react-native-biometrics`: `^0.15.0`
+- `firebase`: `^12.12.1`
+- `react-native-safe-area-context`: `^5.7.0`
+- `react-native-screens`: `^4.24.0`
+- `react-native-vector-icons`: `^10.3.0`
+
+## Installation
+
+Install JavaScript dependencies:
 
 ```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
+npm install
 ```
 
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+For iOS, install Ruby and CocoaPods dependencies:
 
 ```sh
 bundle install
+bundle exec pod install --project-directory=ios
 ```
 
-Then, and every time you update your native dependencies, run:
+## Running The App
+
+Start Metro:
 
 ```sh
-bundle exec pod install
+npm start
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+Run on Android:
 
 ```sh
-# Using npm
+npm run android
+```
+
+Run on iOS:
+
+```sh
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## Firebase
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+The app uses Firebase Firestore for calendar events. Firebase is configured in `src/utils/firebaseConfig.ts`.
 
-## Step 3: Modify your app
+Firestore events are stored in the `events` collection with these fields:
 
-Now that you have successfully run the app, let's make changes!
+- `title`: event title
+- `date`: event date in `YYYY-MM-DD` format
+- `time`: event time
+- `createdAt`: Firestore server timestamp
+- `updatedAt`: Firestore server timestamp
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+The selected-day query filters by `date` and sorts by `time`, so Firestore may require a composite index:
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+- Collection: `events`
+- Fields: `date` ascending, `time` ascending
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+## Useful Scripts
 
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+```sh
+npm start
+npm run android
+npm run ios
+npm run lint
+npm test
+```

@@ -2,23 +2,44 @@ import { FlatList, StyleSheet, Text, View } from "react-native"
 import { CalendarComponent } from "../components/CalendarComponent"
 import { ActionButton } from "../components/ActionButton"
 import { EventItem } from "../components/EventItem"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { AddEventDialog } from "../components/AddEventDialog"
+import { formatDateKey } from "../utils/Utils"
+import { addEvent, editEvent, getEventsForSelectedDay } from "../services/eventsService"
+import { Event } from "../types/types"
 
-const events = [
-  { id: "1", title: "Event 1", time: "10:00" },
-  { id: "2", title: "Event 2", time: "11:00" },
-  { id: "3", title: "Event 3", time: "12:00" },
-  { id: "4", title: "Event 4", time: "13:00" },
-]
 
 export const CalendarScreen = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isAddEventDialogVisible, setIsAddEventDialogVisible] = useState(false);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [selectedEvent, setSelectedEvent] = useState<Event | undefined>();
+
+  const selectedDateKey = formatDateKey(selectedDate);
+
+  async function fetchEvents() {
+    const events = await getEventsForSelectedDay(selectedDateKey);
+    setEvents(events);
+  }
+
+  async function handleSaveEvent(event: Omit<Event, "id">) {
+    if (selectedEvent) {
+      await editEvent(selectedEvent.id, event);
+    } else {
+      await addEvent(event);
+    }
+    setIsAddEventDialogVisible(false);
+    setSelectedEvent(undefined);
+    await fetchEvents();
+  }
 
   function handleSelectDate(date: Date) {
     setSelectedDate(date);
   }
+
+  useEffect(() => {
+    fetchEvents();
+  }, [selectedDateKey]);
 
   return (
     <View style={styles.container}>
@@ -28,27 +49,39 @@ export const CalendarScreen = () => {
       />
 
       <Text style={styles.eventsTitle}>Events for {selectedDate.toLocaleDateString()}</Text>
-      <FlatList
-        horizontal
-        data={events}
-        renderItem={({ item }) =>
-          <EventItem
-            event={item}
-            onPress={() => setIsAddEventDialogVisible(true)}
-          />
-        }
-        keyExtractor={(item) => item.id}
-      />
+      {events.length > 0 ? (
+        <FlatList
+          horizontal
+          data={events}
+          renderItem={({ item }) =>
+            <EventItem
+              event={item}
+              onPress={() => {
+                setSelectedEvent(item);
+                setIsAddEventDialogVisible(true);
+              }}
+            />
+          }
+          keyExtractor={(item) => item.id}
+        />
+      ) : (
+        <Text style={styles.noEventsText}>No events for this date</Text>
+      )}
       <ActionButton
         title="Add Event"
-        onPress={() => setIsAddEventDialogVisible(true)}
+        onPress={() => {
+          setSelectedEvent(undefined);
+          setIsAddEventDialogVisible(true);
+        }}
         style={styles.button}
       />
 
       <AddEventDialog
         visible={isAddEventDialogVisible}
         onClose={() => setIsAddEventDialogVisible(false)}
-        isEdit={false}
+        event={selectedEvent}
+        selectedDate={selectedDateKey}
+        onSave={handleSaveEvent}
       />
 
     </View>
@@ -67,5 +100,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     margin: 16,
-  }
+  },
+  noEventsText: {
+    fontSize: 16,
+    textAlign: "center",
+    margin: 16,
+  },
 })

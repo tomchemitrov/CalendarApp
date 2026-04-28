@@ -29,13 +29,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     justifyContent: 'center',
     alignItems: 'center',
+    gap: 4,
   },
   eventTitle: {
     fontWeight: 'bold',
     fontSize: 16,
+    textAlign: 'center',
   },
   eventTime: {
     fontSize: 14,
     color: 'gray',
+    textAlign: 'center',
   },
 });
