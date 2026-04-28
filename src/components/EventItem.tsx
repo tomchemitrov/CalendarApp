@@ -1,11 +1,16 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Event } from "../types/types";
 
-export const EventItem = ({ event }: { event: Event }) => {
+interface EventItemProps {
+  event: Event;
+  onPress: () => void;
+}
+
+export const EventItem = ({ event, onPress }: EventItemProps) => {
   return (
     <TouchableOpacity
       style={styles.eventItem}
-      onPress={() => console.log("Event pressed")}
+      onPress={onPress}
       activeOpacity={0.7}
     >
       <Text style={styles.eventTitle}>{event.title}</Text>
