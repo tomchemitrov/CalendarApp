@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DayItem renders selected state 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#007AFF",
+      "borderColor": "gray",
+      "borderRadius": 8,
+      "borderWidth": 1,
+      "color": "white",
+      "flex": 1,
+      "justifyContent": "center",
+      "marginBottom": 8,
+      "marginRight": 4,
+      "opacity": 1,
+      "paddingHorizontal": 4,
+      "paddingVertical": 8,
+    }
+  }
+>
+  <Text
+    style={
+      {
+        "color": "white",
+      }
+    }
+  >
+    28
+  </Text>
+</View>
+`;
+
+exports[`DayItem renders the day number 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "center",
+      "borderColor": "gray",
+      "borderRadius": 8,
+      "borderWidth": 1,
+      "flex": 1,
+      "justifyContent": "center",
+      "marginBottom": 8,
+      "marginRight": 4,
+      "opacity": 1,
+      "paddingHorizontal": 4,
+      "paddingVertical": 8,
+    }
+  }
+>
+  <Text
+    style={false}
+  >
+    28
+  </Text>
+</View>
+`;

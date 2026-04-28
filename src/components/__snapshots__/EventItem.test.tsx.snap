@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventItem renders the event title and time 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#f0f0f0",
+      "borderRadius": 8,
+      "gap": 4,
+      "height": 100,
+      "justifyContent": "center",
+      "marginHorizontal": 8,
+      "opacity": 1,
+      "padding": 10,
+      "width": 100,
+    }
+  }
+>
+  <Text
+    style={
+      {
+        "fontSize": 16,
+        "fontWeight": "bold",
+        "textAlign": "center",
+      }
+    }
+  >
+    Team Meeting
+  </Text>
+  <Text
+    style={
+      {
+        "color": "gray",
+        "fontSize": 14,
+        "textAlign": "center",
+      }
+    }
+  >
+    10:30
+  </Text>
+</View>
+`;
