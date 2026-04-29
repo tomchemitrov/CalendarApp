@@ -3,15 +3,15 @@ import { CalendarComponent } from "../components/CalendarComponent"
 import { ActionButton } from "../components/ActionButton"
 import { EventItem } from "../components/EventItem"
 import { useCallback, useEffect, useState } from "react"
-import { AddEventDialog } from "../components/AddEventDialog"
+import { AddEventModal } from "../components/AddEventModal"
 import { formatDateKey } from "../utils/Utils"
 import { addEvent, editEvent, getEventsForSelectedDay } from "../services/eventsService"
-import { Event } from "../types/types"
+import { Event, EventInput } from "../types/types"
 
 
 export const CalendarScreen = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [isAddEventDialogVisible, setIsAddEventDialogVisible] = useState(false);
+  const [isAddEventModalVisible, setIsAddEventModalVisible] = useState(false);
   const [events, setEvents] = useState<Event[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<Event | undefined>();
 
@@ -22,13 +22,13 @@ export const CalendarScreen = () => {
     setEvents(selectedDayEvents);
   }, [selectedDateKey]);
 
-  async function handleSaveEvent(event: Omit<Event, "id">) {
+  async function handleSaveEvent(event: EventInput) {
     if (selectedEvent) {
       await editEvent(selectedEvent.id, event);
     } else {
       await addEvent(event);
     }
-    setIsAddEventDialogVisible(false);
+    setIsAddEventModalVisible(false);
     setSelectedEvent(undefined);
     await fetchEvents();
   }
@@ -58,7 +58,7 @@ export const CalendarScreen = () => {
               event={item}
               onPress={() => {
                 setSelectedEvent(item);
-                setIsAddEventDialogVisible(true);
+                setIsAddEventModalVisible(true);
               }}
             />
           }
@@ -71,14 +71,14 @@ export const CalendarScreen = () => {
         title="Add Event"
         onPress={() => {
           setSelectedEvent(undefined);
-          setIsAddEventDialogVisible(true);
+          setIsAddEventModalVisible(true);
         }}
         style={styles.button}
       />
 
-      <AddEventDialog
-        visible={isAddEventDialogVisible}
-        onClose={() => setIsAddEventDialogVisible(false)}
+      <AddEventModal
+          visible={isAddEventModalVisible}
+        onClose={() => setIsAddEventModalVisible(false)}
         event={selectedEvent}
         selectedDate={selectedDateKey}
         onSave={handleSaveEvent}

@@ -4,15 +4,13 @@ CalendarApp is a React Native calendar application with Firebase Firestore-backe
 
 ## Screenshots
 
-<img src="screenshots/1.png" width="250" alt="Calendar screen" />
-
-<img src="screenshots/2.png" width="250" alt="Add event dialog" />
-
-<img src="screenshots/3.png" width="250" alt="Events list" />
-
-<img src="screenshots/4.png" width="250" alt="Edit event dialog" />
-
-<img src="screenshots/5.png" width="250" alt="Profile screen" />
+<div style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 12px;">
+  <img src="screenshots/1.png" width="250" alt="Calendar screen" />
+  <img src="screenshots/2.png" width="250" alt="Add event modal" />
+  <img src="screenshots/3.png" width="250" alt="Events list" />
+  <img src="screenshots/4.png" width="250" alt="Edit event modal" />
+  <img src="screenshots/5.png" width="250" alt="Profile screen" />
+</div>
 
 ## Required Software Versions
 

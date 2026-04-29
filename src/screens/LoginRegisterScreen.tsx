@@ -2,8 +2,7 @@ import { useState } from "react";
 import { ActivityIndicator, Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 import { ActionButton } from "../components/ActionButton";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../utils/firebaseConfig";
+import { getAuthErrorMessage, register, signIn } from "../services/authService";
 
 export const LoginRegisterScreen = () => {
   const [isRegister, setIsRegister] = useState(false)
@@ -45,9 +44,9 @@ export const LoginRegisterScreen = () => {
     setIsLoading(true);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signIn(email, password);
     } catch (error) {
-      Alert.alert("Error", error + "");
+      Alert.alert("Error", getAuthErrorMessage(error));
     } finally {
       setIsLoading(false);
     }
@@ -61,9 +60,9 @@ export const LoginRegisterScreen = () => {
     setIsLoading(true);
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      await register(email, password);
     } catch (error) {
-      Alert.alert("Error", error + "");
+      Alert.alert("Error", getAuthErrorMessage(error));
     } finally {
       setIsLoading(false);
     }
@@ -127,7 +126,12 @@ export const LoginRegisterScreen = () => {
           <Text>
             {isRegister ? "Already have an account?" : "Don't have an account?"}
           </Text>
-          <TouchableOpacity onPress={() => setIsRegister(!isRegister)}>
+          <TouchableOpacity onPress={() => {
+            setIsRegister(!isRegister)
+            setEmail("")
+            setPassword("")
+            setConfirmPassword("")
+          }}>
             <Text style={{ color: "#007AFF" }}>
               {isRegister ? " Sign In" : " Register"}
             </Text>

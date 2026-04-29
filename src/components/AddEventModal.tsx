@@ -1,20 +1,20 @@
 import { Alert, Modal, Platform, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { ActionButton } from "./ActionButton";
 import { useEffect, useState } from "react";
-import { Event } from "../types/types";
+import { Event, EventInput } from "../types/types";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DateTimePicker, { DateTimePickerChangeEvent } from "@react-native-community/datetimepicker";
 import { formatDateKey, formatTimeKey } from "../utils/Utils";
 
-interface AddEventDialogProps {
+interface AddEventModalProps {
   visible: boolean;
   onClose: () => void;
   event?: Event;
   selectedDate: string;
-  onSave: (event: Omit<Event, "id">) => Promise<void>;
+  onSave: (event: EventInput) => Promise<void>;
 }
 
-export const AddEventDialog = ({ visible, onClose, event, selectedDate, onSave }: AddEventDialogProps) => {
+export const AddEventModal = ({ visible, onClose, event, selectedDate, onSave }: AddEventModalProps) => {
   const [title, setTitle] = useState(event?.title || "");
   const [date, setDate] = useState(event?.date || "");
   const [time, setTime] = useState(event?.time || "");
@@ -91,7 +91,7 @@ export const AddEventDialog = ({ visible, onClose, event, selectedDate, onSave }
       onRequestClose={onClose}
     >
       <Pressable style={styles.backdrop} onPress={onClose}>
-        <Pressable style={styles.dialog}>
+        <Pressable style={styles.modal}>
           <View style={styles.header}>
             <Text style={styles.title}>{event ? "Edit Event" : "Add Event"}</Text>
             <TouchableOpacity onPress={onClose}>
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 24,
   },
-  dialog: {
+  modal: {
     width: "100%",
     maxWidth: 360,
     backgroundColor: "#fff",

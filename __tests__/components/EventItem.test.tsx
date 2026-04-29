@@ -6,6 +6,7 @@ import { Event } from "../../src/types/types";
 
 const event: Event = {
   id: "event-1",
+  userId: "user-1",
   title: "Team Meeting",
   date: "2026-04-28",
   time: "10:30",

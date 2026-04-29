@@ -1,20 +1,19 @@
 import { Alert, StyleSheet, Text, View } from "react-native"
 import { ActionButton } from "../components/ActionButton";
-import { signOut } from "firebase/auth";
-import { auth } from "../utils/firebaseConfig";
 import { useState } from "react";
+import { getAuthErrorMessage, getCurrentUser, logout } from "../services/authService";
 
 export const ProfileScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const user = auth.currentUser;
+  const user = getCurrentUser();
 
   async function handleSignOut() {
     setIsLoading(true);
     try {
-      await signOut(auth);
+      await logout();
     } catch (error) {
-      Alert.alert("Error", error + "");
+      Alert.alert("Error", getAuthErrorMessage(error));
     } finally {
       setIsLoading(false);
     }
