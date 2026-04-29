@@ -1,19 +1,31 @@
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 import ReactTestRenderer, { act } from "react-test-renderer";
-import { DayItem } from "./DayItem";
+import { EventItem } from "../../src/components/EventItem";
+import { Event } from "../../src/types/types";
 
-describe("DayItem", () => {
-  it("renders the day number", () => {
+const event: Event = {
+  id: "event-1",
+  title: "Team Meeting",
+  date: "2026-04-28",
+  time: "10:30",
+};
+
+describe("EventItem", () => {
+  it("renders the event title and time", () => {
     let renderer: ReactTestRenderer.ReactTestRenderer;
 
     act(() => {
       renderer = ReactTestRenderer.create(
-        <DayItem day="28" isSelected={false} onPress={jest.fn()} />,
+        <EventItem event={event} onPress={jest.fn()} />,
       );
     });
 
-    expect(renderer!.root.findByType(Text).props.children).toBe("28");
+    const textValues = renderer!.root.findAllByType(Text).map((text) => {
+      return text.props.children;
+    });
+
+    expect(textValues).toEqual(["Team Meeting", "10:30"]);
     expect(renderer!.toJSON()).toMatchSnapshot();
   });
 
@@ -23,7 +35,7 @@ describe("DayItem", () => {
 
     act(() => {
       renderer = ReactTestRenderer.create(
-        <DayItem day="28" isSelected={false} onPress={onPress} />,
+        <EventItem event={event} onPress={onPress} />,
       );
     });
 
@@ -32,17 +44,5 @@ describe("DayItem", () => {
     });
 
     expect(onPress).toHaveBeenCalledTimes(1);
-  });
-
-  it("renders selected state", () => {
-    let renderer: ReactTestRenderer.ReactTestRenderer;
-
-    act(() => {
-      renderer = ReactTestRenderer.create(
-        <DayItem day="28" isSelected={true} onPress={jest.fn()} />,
-      );
-    });
-
-    expect(renderer!.toJSON()).toMatchSnapshot();
   });
 });

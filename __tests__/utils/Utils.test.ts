@@ -1,8 +1,19 @@
-import { formatDateKey, getCalendarDays, isSameDay } from "./Utils";
+import {
+  formatDateKey,
+  formatTimeKey,
+  getCalendarDays,
+  isSameDay,
+} from "../../src/utils/Utils";
 
 describe("formatDateKey", () => {
   it("formats a date as YYYY-MM-DD", () => {
     expect(formatDateKey(new Date(2026, 3, 8))).toBe("2026-04-08");
+  });
+});
+
+describe("formatTimeKey", () => {
+  it("formats a date as HH:mm", () => {
+    expect(formatTimeKey(new Date(2026, 3, 8, 9, 5))).toBe("09:05");
   });
 });
 

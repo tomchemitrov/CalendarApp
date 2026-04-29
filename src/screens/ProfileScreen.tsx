@@ -23,7 +23,7 @@ export const ProfileScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.userContainer}>
-        <Text>Logged in user:</Text>
+        <Text>Signed in user:</Text>
         <Text style={styles.userText}>{user?.email}</Text>
       </View>
       <ActionButton

@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native"
 import { CalendarComponent } from "../components/CalendarComponent"
 import { ActionButton } from "../components/ActionButton"
 import { EventItem } from "../components/EventItem"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { AddEventDialog } from "../components/AddEventDialog"
 import { formatDateKey } from "../utils/Utils"
 import { addEvent, editEvent, getEventsForSelectedDay } from "../services/eventsService"
@@ -17,10 +17,10 @@ export const CalendarScreen = () => {
 
   const selectedDateKey = formatDateKey(selectedDate);
 
-  async function fetchEvents() {
-    const events = await getEventsForSelectedDay(selectedDateKey);
-    setEvents(events);
-  }
+  const fetchEvents = useCallback(async () => {
+    const selectedDayEvents = await getEventsForSelectedDay(selectedDateKey);
+    setEvents(selectedDayEvents);
+  }, [selectedDateKey]);
 
   async function handleSaveEvent(event: Omit<Event, "id">) {
     if (selectedEvent) {
@@ -39,7 +39,7 @@ export const CalendarScreen = () => {
 
   useEffect(() => {
     fetchEvents();
-  }, [selectedDateKey]);
+  }, [fetchEvents]);
 
   return (
     <View style={styles.container}>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ActivityIndicator, Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 import { ActionButton } from "../components/ActionButton";
 import { SafeAreaView } from "react-native-safe-area-context";

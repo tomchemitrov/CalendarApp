@@ -47,6 +47,7 @@ Use the following versions when setting up the project:
 ## Main App Dependencies
 
 - `@react-native-async-storage/async-storage`: `^3.0.2`
+- `@react-native-community/datetimepicker`: `^9.1.0`
 - `@react-navigation/bottom-tabs`: `^7.15.10`
 - `@react-navigation/native`: `^7.2.2`
 - `@react-navigation/native-stack`: `^7.14.12`
